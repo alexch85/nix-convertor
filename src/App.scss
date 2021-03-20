@@ -1,0 +1,80 @@
+body {
+	background-color: #3576ee;
+	display: flex;
+	flex-flow: column nowrap;
+	align-content: center;
+	justify-content: center;
+}
+
+.App {
+	width: 100%;
+	margin: 30vh auto 0;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.convertor_logo {
+	font-family: 'Helvetica Neue', sans-serif;
+	text-transform: uppercase;
+	width: auto;
+	color: #fff;
+	font-size: 2.9rem;
+	font-weight: 300;
+	letter-spacing: 0.05em;
+
+	img {
+		margin-right: 5px;
+		height: 50px;
+	}
+}
+
+.convertor_body {
+	width: 50vw;
+	display: flex;
+	flex-direction: column;
+	background: rgba(255, 255, 255, 0.7);
+	padding: 20px 40px 40px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	-webkit-box-shadow: 3px 3px 13px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 3px 3px 13px 3px rgba(0, 0, 0, 0.05);
+}
+
+.convertor_fields {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+.switch-btn {
+	height: 2rem;
+	width: 2rem;
+	border: 2px solid #3576ee;
+	color: #3576ee;
+	background: transparent;
+	font-size: 1.2rem;
+	display: flex;
+	align-items: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.convert-btn {
+	width: 250px;
+	height: 2rem;
+	margin: 0 10px;
+	background: #3576ee;
+	color: #fff;
+	border: none;
+	align-self: flex-end;
+	cursor: pointer;
+
+	&:hover {
+		background: #2551a2;
+	}
+}
