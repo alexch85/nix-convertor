@@ -1,15 +1,34 @@
 import './Field.scss';
 
-export default function Field({ name, type, amount, setAmount }) {
+export default function Field({
+	name,
+	type,
+	amount,
+	setAmount,
+	currencyOptions,
+	onChangeCurrency,
+	currency,
+	currencyNames,
+	setToCurrency,
+	setFromCurrency,
+}) {
+	const flag = currency?.slice(0, -1).toLowerCase();
+
 	let field;
 	type === 'select'
 		? (field = (
 				<div className='field'>
 					<h4>{name}</h4>
-					<select value='usd'>
-						<option value='usd'> USD</option>
-						<option value='eur'>EUR</option>
-					</select>
+					<div className='currency_select'>
+						<img className='flag_img' src={`https://www.countryflags.io/${flag}/flat/32.png`} alt='flag' />
+						<select value={currency} onChange={onChangeCurrency}>
+							{currencyOptions.map((curr) => (
+								<option key={curr} value={curr}>
+									{curr} {`- ${currencyNames && currencyNames[curr]}`}
+								</option>
+							))}
+						</select>
+					</div>
 				</div>
 		  ))
 		: (field = (
