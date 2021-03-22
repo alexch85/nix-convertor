@@ -8,11 +8,15 @@ body {
 
 .App {
 	width: 100%;
-	margin: 30vh auto 0;
+	margin: 15vh auto 0;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
+	font-family: 'Helvetica Neue', sans-serif;
+	@media (min-width: 1055px) {
+		margin: 30vh auto 0;
+	}
 }
 
 .convertor_logo {
@@ -20,61 +24,117 @@ body {
 	text-transform: uppercase;
 	width: auto;
 	color: #fff;
-	font-size: 2.9rem;
+	font-size: 2rem;
 	font-weight: 300;
 	letter-spacing: 0.05em;
 
 	img {
 		margin-right: 5px;
-		height: 50px;
+		height: 2rem;
+		@media (min-width: 1055px) {
+			height: 3rem;
+		}
+	}
+
+	@media (min-width: 1055px) {
+		font-size: 2.9rem;
 	}
 }
 
 .convertor_body {
-	width: 50vw;
+	width: 70vw;
+	max-width: 500px;
+	min-width: none;
 	display: flex;
 	flex-direction: column;
-	background: rgba(255, 255, 255, 0.7);
-	padding: 20px 40px 40px;
+	background: rgba(255, 255, 255, 0.8);
+	padding: 20px 20px 40px;
 	box-sizing: border-box;
 	border-radius: 5px;
 	-webkit-box-shadow: 3px 3px 13px 3px rgba(0, 0, 0, 0.05);
 	box-shadow: 3px 3px 13px 3px rgba(0, 0, 0, 0.05);
+
+	@media (min-width: 1055px) {
+		min-width: 900px;
+	}
 }
 
 .convertor_fields {
 	display: flex;
-	align-items: flex-end;
+	flex-flow: column nowrap;
+	align-items: center;
 	justify-content: space-between;
 	width: 100%;
 	padding: 0;
 	margin-bottom: 20px;
+
+	@media (min-width: 1055px) {
+		align-items: flex-end;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
 }
 
 .switch-btn {
-	height: 2rem;
-	width: 2rem;
+	height: 3rem;
+	width: 3rem;
+	min-width: 3rem;
 	border: 2px solid #3576ee;
 	color: #3576ee;
 	background: transparent;
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	border-radius: 50%;
+	margin-top: 20px;
 	cursor: pointer;
+
+	@media (min-width: 1055px) {
+		margin-top: 0;
+	}
 }
 
 .convert-btn {
-	width: 250px;
-	height: 2rem;
+	width: 100%;
+	height: 3rem;
 	margin: 0 10px;
 	background: #3576ee;
+	border-radius: 3px;
 	color: #fff;
 	border: none;
-	align-self: flex-end;
+	align-self: center;
 	cursor: pointer;
 
 	&:hover {
 		background: #2551a2;
+	}
+
+	@media (min-width: 1055px) {
+		align-self: flex-end;
+		width: 100px;
+	}
+}
+
+.convert-result {
+	align-self: center;
+	border-radius: 0 0 5px 5px;
+	margin-top: -10px;
+	padding: 10px;
+	width: 20rem;
+	margin-top: 1rem;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+
+	p {
+		margin: 0;
+	}
+
+	h2 {
+		margin: 10px;
+		padding: 0 0 10px;
+		font-weight: 400;
+		border-bottom: 1px solid #666;
 	}
 }
