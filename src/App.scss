@@ -126,15 +126,19 @@ body {
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: center;
+	width: 20rem;
 
 	p {
 		margin: 0;
+		&:last-child {
+			border-top: 1px solid #666;
+			padding-top: 1rem;
+		}
 	}
 
 	h2 {
-		margin: 10px;
+		margin: 10px 0 0;
 		padding: 0 0 10px;
 		font-weight: 400;
-		border-bottom: 1px solid #666;
 	}
 }

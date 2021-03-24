@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.scss';
 
 import logo from './assets/nix-logo.svg';
@@ -14,9 +14,12 @@ function App() {
 	const [currencyNames, setCurrencyNames] = useState();
 	const [fromCurrency, setFromCurrency] = useState('USD');
 	const [toCurrency, setToCurrency] = useState('EUR');
-	const [result, setResult] = useState(false);
-	const [amount, setAmount] = useState(0);
+	const [result, setResult] = useState(null);
+	const [showResult, setShowResult] = useState(false);
+	const [amount, setAmount] = useState(1);
+	const [exchangeRate, setExchangeRate] = useState();
 
+	//GET CURRENCY DATA FROM API
 	useEffect(() => {
 		const fetchCurrencyOptions = async () => {
 			const response = await fetch(exApiUrl);
@@ -25,9 +28,9 @@ function App() {
 			return setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
 		};
 		fetchCurrencyOptions();
-		console.log(currencyOptions);
 	}, []);
 
+	//GET CURRENCY NAMES FROM API
 	useEffect(() => {
 		const fetchCurrencyNames = async () => {
 			const resp = await fetch(namesJsonUrl);
@@ -38,10 +41,52 @@ function App() {
 		fetchCurrencyNames();
 	}, []);
 
-	const toggleResultHandler = () => setResult((prevResult) => !prevResult);
+	const setAmountHandler = (e) => {
+		(e >= 1 || 0) && setAmount(e);
+	};
 
-	const onChangeFromCurrency = (e) => setFromCurrency(e.target.value);
-	const onChangeToCurrency = (e) => setToCurrency(e.target.value);
+	//CALC AMOUNT HANDLER
+	const amoutClacHandler = useCallback(() => {
+		if (amount && amount > 0) {
+			const calcResult = amount * exchangeRate;
+			setResult(calcResult);
+		}
+	}, [amount, exchangeRate]);
+
+	//GET EXCHANGE RATE FROM API
+	useEffect(() => {
+		const fetchExchangeRate = async () => {
+			const resp = await fetch(`${exApiUrl}?base=${fromCurrency}&symbols=${toCurrency}`);
+			const exchangeRate = await resp.json();
+			console.log(exchangeRate);
+			return setExchangeRate(exchangeRate.rates[toCurrency]);
+		};
+		fetchExchangeRate();
+		amoutClacHandler();
+	}, [fromCurrency, toCurrency, amoutClacHandler]);
+
+	//ONCHANGE CURRENCY HANDLERS
+	const onChangeFromCurrency = (e) => {
+		e.target.value !== toCurrency && setFromCurrency(e.target.value);
+	};
+	const onChangeToCurrency = (e) => {
+		e.target.value !== fromCurrency && setToCurrency(e.target.value);
+	};
+
+	//TOGGLE CURRENCIES HANDLER
+	const toggleCurrencyHandler = () => {
+		const savedFromCurrency = fromCurrency;
+		setFromCurrency(toCurrency);
+		setToCurrency(savedFromCurrency);
+		amoutClacHandler();
+	};
+
+	//TOGGLE SHOW RESULT
+	const toggleShowResult = () => {
+		setShowResult(true);
+	};
+
+	exchangeRate && console.log(exchangeRate);
 	return (
 		<div className='App'>
 			<div className='convertor_logo'>
@@ -50,7 +95,13 @@ function App() {
 			</div>
 			<div className='convertor_body'>
 				<div className='convertor_fields'>
-					<Field name='amount' type='number' amount={amount} setAmount={setAmount} />
+					<Field
+						name='amount'
+						type='number'
+						amount={amount}
+						setAmount={setAmountHandler}
+						currency={fromCurrency}
+					/>
 					<Field
 						name='from'
 						type='select'
@@ -60,7 +111,7 @@ function App() {
 						onChangeCurrency={onChangeFromCurrency}
 						currencyNames={currencyNames}
 					/>
-					<button className='switch_btn' alt='switch-currencies'>
+					<button className='switch_btn' alt='switch-currencies' onClick={toggleCurrencyHandler}>
 						<HiOutlineSwitchHorizontal />
 					</button>
 					<Field
@@ -73,14 +124,22 @@ function App() {
 						currencyNames={currencyNames}
 					/>
 				</div>
-				<button className='convert_btn' alt='convert' onClick={toggleResultHandler}>
+				<button className='convert_btn' alt='convert' onClick={toggleShowResult}>
 					Convert
 				</button>
-				{result && (
+				{showResult && (
 					<div className='convert_result'>
-						<p>100 American Dollars =</p>
-						<h2>329.00 New Israeli shekels</h2>
-						<p>1 ILS = 0.309 USD 1 USD = 3.29ILS</p>
+						<p>
+							{amount} {currencyNames[fromCurrency]} =
+						</p>
+						<h2>
+							{result.toFixed(3)} {currencyNames[toCurrency]}
+						</h2>
+						<p>
+							1 {fromCurrency} = {(1 * exchangeRate).toFixed(3)}
+							{toCurrency} 1 {toCurrency} = {(1 / exchangeRate).toFixed(3)}
+							{fromCurrency}
+						</p>
 					</div>
 				)}
 			</div>

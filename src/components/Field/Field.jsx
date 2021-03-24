@@ -1,4 +1,5 @@
 import './Field.scss';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 export default function Field({
 	name,
@@ -19,7 +20,7 @@ export default function Field({
 		? (field = (
 				<div className='field'>
 					<h4>{name}</h4>
-					<div className='currency_select'>
+					<div className='field_container'>
 						<img className='flag_img' src={`https://www.countryflags.io/${flag}/flat/32.png`} alt='flag' />
 						<select value={currency} onChange={onChangeCurrency}>
 							{currencyOptions.map((curr) => (
@@ -34,7 +35,10 @@ export default function Field({
 		: (field = (
 				<div className='field'>
 					<h4>{name}</h4>
-					<input type='number' value={amount} onChange={(e) => setAmount(e.target.value)} />
+					<div className='field_container'>
+						<span>{getSymbolFromCurrency(currency)}</span>
+						<input type='number' value={amount} onChange={(e) => setAmount(e.target.value)} />
+					</div>
 				</div>
 		  ));
 	return <>{field}</>;
