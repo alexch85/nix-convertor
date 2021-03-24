@@ -41,8 +41,9 @@ function App() {
 		fetchCurrencyNames();
 	}, []);
 
+	//SET AMOUNT HANDLER
 	const setAmountHandler = (e) => {
-		(e >= 1 || 0) && setAmount(e);
+		e >= 0 && setAmount(e);
 	};
 
 	//CALC AMOUNT HANDLER
